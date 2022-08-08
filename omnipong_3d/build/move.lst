@@ -1,0 +1,581 @@
+ARM GAS  /tmp/ccr81NgS.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"move.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.rot_direction,"ax",%progbits
+  18              		.align	1
+  19              		.global	rot_direction
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	rot_direction:
+  27              	.LVL0:
+  28              	.LFB130:
+  29              		.file 1 "Src/move.c"
+   1:Src/move.c    **** #include "move.h"
+   2:Src/move.c    **** #include "main.h"
+   3:Src/move.c    **** #include "stm32f4xx_hal.h"
+   4:Src/move.c    **** 
+   5:Src/move.c    **** 
+   6:Src/move.c    **** 
+   7:Src/move.c    **** 
+   8:Src/move.c    **** void rot_direction(int motor, int direction)  //o means counterclockwise, 1 clockwise // 2, locked
+   9:Src/move.c    **** {   
+  30              		.loc 1 9 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 9 1 is_stmt 0 view .LVU1
+  35 0000 38B5     		push	{r3, r4, r5, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 3, -16
+  39              		.cfi_offset 4, -12
+  40              		.cfi_offset 5, -8
+  41              		.cfi_offset 14, -4
+  10:Src/move.c    ****     int direction2 = 0;
+  42              		.loc 1 10 5 is_stmt 1 view .LVU2
+  43              	.LVL1:
+  11:Src/move.c    **** 
+  12:Src/move.c    ****     if(direction == 0) {
+  44              		.loc 1 12 5 view .LVU3
+  45              		.loc 1 12 7 is_stmt 0 view .LVU4
+  46 0002 0C46     		mov	r4, r1
+ARM GAS  /tmp/ccr81NgS.s 			page 2
+
+
+  47 0004 29B1     		cbz	r1, .L6
+  13:Src/move.c    ****         direction2 = 1;
+  14:Src/move.c    ****     }
+  15:Src/move.c    ****     else if(direction == 1) {
+  48              		.loc 1 15 10 is_stmt 1 view .LVU5
+  49              		.loc 1 15 12 is_stmt 0 view .LVU6
+  50 0006 0129     		cmp	r1, #1
+  51 0008 0AD0     		beq	.L7
+  16:Src/move.c    ****         direction2 = 0;
+  17:Src/move.c    ****     }
+  18:Src/move.c    ****     else if(direction == 2) {
+  52              		.loc 1 18 10 is_stmt 1 view .LVU7
+  53              		.loc 1 18 12 is_stmt 0 view .LVU8
+  54 000a 0229     		cmp	r1, #2
+  55 000c 0AD0     		beq	.L8
+  10:Src/move.c    **** 
+  56              		.loc 1 10 9 view .LVU9
+  57 000e 0022     		movs	r2, #0
+  58 0010 00E0     		b	.L2
+  59              	.L6:
+  13:Src/move.c    ****         direction2 = 1;
+  60              		.loc 1 13 20 view .LVU10
+  61 0012 0122     		movs	r2, #1
+  62              	.L2:
+  63              	.LVL2:
+  19:Src/move.c    ****         direction = 0;
+  20:Src/move.c    ****         direction2 = 0;
+  21:Src/move.c    ****     }
+  22:Src/move.c    **** 
+  23:Src/move.c    ****     if(motor == 0) 
+  64              		.loc 1 23 5 is_stmt 1 view .LVU11
+  65              		.loc 1 23 7 is_stmt 0 view .LVU12
+  66 0014 48B1     		cbz	r0, .L10
+  24:Src/move.c    ****     {
+  25:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, direction2);
+  26:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, direction);
+  27:Src/move.c    ****     }
+  28:Src/move.c    ****     else if(motor == 1)
+  67              		.loc 1 28 10 is_stmt 1 view .LVU13
+  68              		.loc 1 28 12 is_stmt 0 view .LVU14
+  69 0016 0128     		cmp	r0, #1
+  70 0018 14D0     		beq	.L11
+  29:Src/move.c    ****     {
+  30:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, direction2);
+  31:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, direction);
+  32:Src/move.c    ****     }
+  33:Src/move.c    ****     else if (motor == 2)
+  71              		.loc 1 33 10 is_stmt 1 view .LVU15
+  72              		.loc 1 33 13 is_stmt 0 view .LVU16
+  73 001a 0228     		cmp	r0, #2
+  74 001c 1FD0     		beq	.L12
+  75              	.LVL3:
+  76              	.L1:
+  34:Src/move.c    ****     {
+  35:Src/move.c    ****         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, direction2);
+  36:Src/move.c    ****         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, direction);
+  37:Src/move.c    ****     }
+ARM GAS  /tmp/ccr81NgS.s 			page 3
+
+
+  38:Src/move.c    ****     
+  39:Src/move.c    **** }
+  77              		.loc 1 39 1 view .LVU17
+  78 001e 38BD     		pop	{r3, r4, r5, pc}
+  79              	.LVL4:
+  80              	.L7:
+  16:Src/move.c    ****     }
+  81              		.loc 1 16 20 view .LVU18
+  82 0020 0022     		movs	r2, #0
+  83 0022 F7E7     		b	.L2
+  84              	.L8:
+  20:Src/move.c    ****     }
+  85              		.loc 1 20 20 view .LVU19
+  86 0024 0022     		movs	r2, #0
+  19:Src/move.c    ****         direction2 = 0;
+  87              		.loc 1 19 19 view .LVU20
+  88 0026 1446     		mov	r4, r2
+  89 0028 F4E7     		b	.L2
+  90              	.LVL5:
+  91              	.L10:
+  25:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, direction);
+  92              		.loc 1 25 9 is_stmt 1 view .LVU21
+  93 002a 134D     		ldr	r5, .L13
+  94 002c 4FF48051 		mov	r1, #4096
+  95 0030 2846     		mov	r0, r5
+  96              	.LVL6:
+  25:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, direction);
+  97              		.loc 1 25 9 is_stmt 0 view .LVU22
+  98 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  99              	.LVL7:
+  26:Src/move.c    ****     }
+ 100              		.loc 1 26 9 is_stmt 1 view .LVU23
+ 101 0036 E2B2     		uxtb	r2, r4
+ 102 0038 4FF40051 		mov	r1, #8192
+ 103 003c 2846     		mov	r0, r5
+ 104 003e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 105              	.LVL8:
+ 106 0042 ECE7     		b	.L1
+ 107              	.LVL9:
+ 108              	.L11:
+  30:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, direction);
+ 109              		.loc 1 30 9 view .LVU24
+ 110 0044 0C4D     		ldr	r5, .L13
+ 111 0046 4FF48041 		mov	r1, #16384
+ 112 004a 2846     		mov	r0, r5
+ 113              	.LVL10:
+  30:Src/move.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, direction);
+ 114              		.loc 1 30 9 is_stmt 0 view .LVU25
+ 115 004c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 116              	.LVL11:
+  31:Src/move.c    ****     }
+ 117              		.loc 1 31 9 is_stmt 1 view .LVU26
+ 118 0050 E2B2     		uxtb	r2, r4
+ 119 0052 4FF40041 		mov	r1, #32768
+ 120 0056 2846     		mov	r0, r5
+ 121 0058 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 122              	.LVL12:
+ARM GAS  /tmp/ccr81NgS.s 			page 4
+
+
+ 123 005c DFE7     		b	.L1
+ 124              	.LVL13:
+ 125              	.L12:
+  35:Src/move.c    ****         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, direction);
+ 126              		.loc 1 35 9 view .LVU27
+ 127 005e 074D     		ldr	r5, .L13+4
+ 128 0060 4FF48071 		mov	r1, #256
+ 129 0064 2846     		mov	r0, r5
+ 130              	.LVL14:
+  35:Src/move.c    ****         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, direction);
+ 131              		.loc 1 35 9 is_stmt 0 view .LVU28
+ 132 0066 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 133              	.LVL15:
+  36:Src/move.c    ****     }
+ 134              		.loc 1 36 9 is_stmt 1 view .LVU29
+ 135 006a E2B2     		uxtb	r2, r4
+ 136 006c 4FF40071 		mov	r1, #512
+ 137 0070 2846     		mov	r0, r5
+ 138 0072 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 139              	.LVL16:
+ 140              		.loc 1 39 1 is_stmt 0 view .LVU30
+ 141 0076 D2E7     		b	.L1
+ 142              	.L14:
+ 143              		.align	2
+ 144              	.L13:
+ 145 0078 00040240 		.word	1073873920
+ 146 007c 000C0240 		.word	1073875968
+ 147              		.cfi_endproc
+ 148              	.LFE130:
+ 150              		.section	.text.rotate,"ax",%progbits
+ 151              		.align	1
+ 152              		.global	rotate
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 156              		.fpu fpv4-sp-d16
+ 158              	rotate:
+ 159              	.LVL17:
+ 160              	.LFB131:
+  40:Src/move.c    **** 
+  41:Src/move.c    **** 
+  42:Src/move.c    **** 
+  43:Src/move.c    **** void rotate(int rotation_direction, int degrees) //rotation_direction 0  clockwise, 1 counter-clock
+  44:Src/move.c    **** {
+ 161              		.loc 1 44 1 is_stmt 1 view -0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              		.loc 1 44 1 is_stmt 0 view .LVU32
+ 166 0000 10B5     		push	{r4, lr}
+ 167              	.LCFI1:
+ 168              		.cfi_def_cfa_offset 8
+ 169              		.cfi_offset 4, -8
+ 170              		.cfi_offset 14, -4
+ 171 0002 0446     		mov	r4, r0
+  45:Src/move.c    ****     rot_direction(0, rotation_direction);
+ 172              		.loc 1 45 5 is_stmt 1 view .LVU33
+ARM GAS  /tmp/ccr81NgS.s 			page 5
+
+
+ 173 0004 0146     		mov	r1, r0
+ 174              	.LVL18:
+ 175              		.loc 1 45 5 is_stmt 0 view .LVU34
+ 176 0006 0020     		movs	r0, #0
+ 177              	.LVL19:
+ 178              		.loc 1 45 5 view .LVU35
+ 179 0008 FFF7FEFF 		bl	rot_direction
+ 180              	.LVL20:
+  46:Src/move.c    ****     rot_direction(1, rotation_direction);
+ 181              		.loc 1 46 5 is_stmt 1 view .LVU36
+ 182 000c 2146     		mov	r1, r4
+ 183 000e 0120     		movs	r0, #1
+ 184 0010 FFF7FEFF 		bl	rot_direction
+ 185              	.LVL21:
+  47:Src/move.c    ****     rot_direction(2, rotation_direction);
+ 186              		.loc 1 47 5 view .LVU37
+ 187 0014 2146     		mov	r1, r4
+ 188 0016 0220     		movs	r0, #2
+ 189 0018 FFF7FEFF 		bl	rot_direction
+ 190              	.LVL22:
+  48:Src/move.c    **** }
+ 191              		.loc 1 48 1 is_stmt 0 view .LVU38
+ 192 001c 10BD     		pop	{r4, pc}
+ 193              		.loc 1 48 1 view .LVU39
+ 194              		.cfi_endproc
+ 195              	.LFE131:
+ 197              		.section	.text.vehicle_direction,"ax",%progbits
+ 198              		.align	1
+ 199              		.global	vehicle_direction
+ 200              		.syntax unified
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.fpu fpv4-sp-d16
+ 205              	vehicle_direction:
+ 206              	.LVL23:
+ 207              	.LFB132:
+  49:Src/move.c    **** 
+  50:Src/move.c    **** 
+  51:Src/move.c    **** 
+  52:Src/move.c    **** 
+  53:Src/move.c    **** void vehicle_direction(int direction) //direction is side of the riangle 0/1/2
+  54:Src/move.c    **** {
+ 208              		.loc 1 54 1 is_stmt 1 view -0
+ 209              		.cfi_startproc
+ 210              		@ args = 0, pretend = 0, frame = 0
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212              		.loc 1 54 1 is_stmt 0 view .LVU41
+ 213 0000 08B5     		push	{r3, lr}
+ 214              	.LCFI2:
+ 215              		.cfi_def_cfa_offset 8
+ 216              		.cfi_offset 3, -8
+ 217              		.cfi_offset 14, -4
+  55:Src/move.c    ****     switch(direction)
+ 218              		.loc 1 55 5 is_stmt 1 view .LVU42
+ 219 0002 0128     		cmp	r0, #1
+ 220 0004 10D0     		beq	.L18
+ 221 0006 0228     		cmp	r0, #2
+ARM GAS  /tmp/ccr81NgS.s 			page 6
+
+
+ 222 0008 1BD0     		beq	.L19
+ 223 000a 00B1     		cbz	r0, .L22
+ 224              	.LVL24:
+ 225              	.L17:
+  56:Src/move.c    ****     {
+  57:Src/move.c    ****         case 0: rot_direction(2, 0); rot_direction(0, 1); rot_direction(1, 2); break;
+  58:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+  59:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+  60:Src/move.c    ****     }
+  61:Src/move.c    **** }
+ 226              		.loc 1 61 1 is_stmt 0 view .LVU43
+ 227 000c 08BD     		pop	{r3, pc}
+ 228              	.LVL25:
+ 229              	.L22:
+  57:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+ 230              		.loc 1 57 17 is_stmt 1 view .LVU44
+ 231 000e 0021     		movs	r1, #0
+ 232 0010 0220     		movs	r0, #2
+ 233              	.LVL26:
+  57:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+ 234              		.loc 1 57 17 is_stmt 0 view .LVU45
+ 235 0012 FFF7FEFF 		bl	rot_direction
+ 236              	.LVL27:
+  57:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+ 237              		.loc 1 57 38 is_stmt 1 view .LVU46
+ 238 0016 0121     		movs	r1, #1
+ 239 0018 0020     		movs	r0, #0
+ 240 001a FFF7FEFF 		bl	rot_direction
+ 241              	.LVL28:
+  57:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+ 242              		.loc 1 57 59 view .LVU47
+ 243 001e 0221     		movs	r1, #2
+ 244 0020 0120     		movs	r0, #1
+ 245 0022 FFF7FEFF 		bl	rot_direction
+ 246              	.LVL29:
+  57:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+ 247              		.loc 1 57 80 view .LVU48
+  57:Src/move.c    ****         case 1: rot_direction(0, 0); rot_direction(1, 1); rot_direction(2, 2); break;
+ 248              		.loc 1 57 9 is_stmt 0 view .LVU49
+ 249 0026 F1E7     		b	.L17
+ 250              	.LVL30:
+ 251              	.L18:
+  58:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+ 252              		.loc 1 58 17 is_stmt 1 view .LVU50
+ 253 0028 0021     		movs	r1, #0
+ 254 002a 0846     		mov	r0, r1
+ 255              	.LVL31:
+  58:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+ 256              		.loc 1 58 17 is_stmt 0 view .LVU51
+ 257 002c FFF7FEFF 		bl	rot_direction
+ 258              	.LVL32:
+  58:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+ 259              		.loc 1 58 38 is_stmt 1 view .LVU52
+ 260 0030 0121     		movs	r1, #1
+ 261 0032 0846     		mov	r0, r1
+ 262 0034 FFF7FEFF 		bl	rot_direction
+ 263              	.LVL33:
+ARM GAS  /tmp/ccr81NgS.s 			page 7
+
+
+  58:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+ 264              		.loc 1 58 59 view .LVU53
+ 265 0038 0221     		movs	r1, #2
+ 266 003a 0846     		mov	r0, r1
+ 267 003c FFF7FEFF 		bl	rot_direction
+ 268              	.LVL34:
+  58:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+ 269              		.loc 1 58 80 view .LVU54
+  58:Src/move.c    ****         case 2: rot_direction(1, 0); rot_direction(2, 1); rot_direction(0, 2); break;
+ 270              		.loc 1 58 9 is_stmt 0 view .LVU55
+ 271 0040 E4E7     		b	.L17
+ 272              	.LVL35:
+ 273              	.L19:
+  59:Src/move.c    ****     }
+ 274              		.loc 1 59 17 is_stmt 1 view .LVU56
+ 275 0042 0021     		movs	r1, #0
+ 276 0044 0120     		movs	r0, #1
+ 277              	.LVL36:
+  59:Src/move.c    ****     }
+ 278              		.loc 1 59 17 is_stmt 0 view .LVU57
+ 279 0046 FFF7FEFF 		bl	rot_direction
+ 280              	.LVL37:
+  59:Src/move.c    ****     }
+ 281              		.loc 1 59 38 is_stmt 1 view .LVU58
+ 282 004a 0121     		movs	r1, #1
+ 283 004c 0220     		movs	r0, #2
+ 284 004e FFF7FEFF 		bl	rot_direction
+ 285              	.LVL38:
+  59:Src/move.c    ****     }
+ 286              		.loc 1 59 59 view .LVU59
+ 287 0052 0221     		movs	r1, #2
+ 288 0054 0020     		movs	r0, #0
+ 289 0056 FFF7FEFF 		bl	rot_direction
+ 290              	.LVL39:
+  59:Src/move.c    ****     }
+ 291              		.loc 1 59 80 view .LVU60
+ 292              		.loc 1 61 1 is_stmt 0 view .LVU61
+ 293 005a D7E7     		b	.L17
+ 294              		.cfi_endproc
+ 295              	.LFE132:
+ 297              		.section	.text.stop_all_motors,"ax",%progbits
+ 298              		.align	1
+ 299              		.global	stop_all_motors
+ 300              		.syntax unified
+ 301              		.thumb
+ 302              		.thumb_func
+ 303              		.fpu fpv4-sp-d16
+ 305              	stop_all_motors:
+ 306              	.LFB133:
+  62:Src/move.c    **** 
+  63:Src/move.c    **** void stop_all_motors()
+  64:Src/move.c    **** {
+ 307              		.loc 1 64 1 is_stmt 1 view -0
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311 0000 08B5     		push	{r3, lr}
+ARM GAS  /tmp/ccr81NgS.s 			page 8
+
+
+ 312              	.LCFI3:
+ 313              		.cfi_def_cfa_offset 8
+ 314              		.cfi_offset 3, -8
+ 315              		.cfi_offset 14, -4
+  65:Src/move.c    ****     rot_direction(0, 2);
+ 316              		.loc 1 65 5 view .LVU63
+ 317 0002 0221     		movs	r1, #2
+ 318 0004 0020     		movs	r0, #0
+ 319 0006 FFF7FEFF 		bl	rot_direction
+ 320              	.LVL40:
+  66:Src/move.c    ****     rot_direction(1, 2);
+ 321              		.loc 1 66 5 view .LVU64
+ 322 000a 0221     		movs	r1, #2
+ 323 000c 0120     		movs	r0, #1
+ 324 000e FFF7FEFF 		bl	rot_direction
+ 325              	.LVL41:
+  67:Src/move.c    ****     rot_direction(2, 2);
+ 326              		.loc 1 67 5 view .LVU65
+ 327 0012 0221     		movs	r1, #2
+ 328 0014 0846     		mov	r0, r1
+ 329 0016 FFF7FEFF 		bl	rot_direction
+ 330              	.LVL42:
+  68:Src/move.c    **** }
+ 331              		.loc 1 68 1 is_stmt 0 view .LVU66
+ 332 001a 08BD     		pop	{r3, pc}
+ 333              		.cfi_endproc
+ 334              	.LFE133:
+ 336              		.section	.text.adjust_speed,"ax",%progbits
+ 337              		.align	1
+ 338              		.global	adjust_speed
+ 339              		.syntax unified
+ 340              		.thumb
+ 341              		.thumb_func
+ 342              		.fpu fpv4-sp-d16
+ 344              	adjust_speed:
+ 345              	.LVL43:
+ 346              	.LFB134:
+  69:Src/move.c    **** 
+  70:Src/move.c    **** 
+  71:Src/move.c    **** 
+  72:Src/move.c    **** void adjust_speed(int motor, int speed) //speed is a percentage
+  73:Src/move.c    **** {
+ 347              		.loc 1 73 1 is_stmt 1 view -0
+ 348              		.cfi_startproc
+ 349              		@ args = 0, pretend = 0, frame = 0
+ 350              		@ frame_needed = 0, uses_anonymous_args = 0
+ 351              		@ link register save eliminated.
+  74:Src/move.c    ****     switch(motor)
+ 352              		.loc 1 74 5 view .LVU68
+ 353 0000 0128     		cmp	r0, #1
+ 354 0002 07D0     		beq	.L26
+ 355 0004 0228     		cmp	r0, #2
+ 356 0006 09D0     		beq	.L27
+ 357 0008 00B1     		cbz	r0, .L29
+ 358              	.L25:
+  75:Src/move.c    ****     {
+  76:Src/move.c    ****         case 0: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed); break;
+ARM GAS  /tmp/ccr81NgS.s 			page 9
+
+
+  77:Src/move.c    ****         case 1: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed); break;
+  78:Src/move.c    ****         case 2: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, speed); break;
+  79:Src/move.c    ****     }
+  80:Src/move.c    ****     
+  81:Src/move.c    **** }...
+ 359              		.loc 1 81 1 is_stmt 0 view .LVU69
+ 360 000a 7047     		bx	lr
+ 361              	.L29:
+  76:Src/move.c    ****         case 0: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed); break;
+ 362              		.loc 1 76 17 is_stmt 1 view .LVU70
+ 363 000c 054B     		ldr	r3, .L30
+ 364 000e 1B68     		ldr	r3, [r3]
+ 365 0010 5963     		str	r1, [r3, #52]
+  76:Src/move.c    ****         case 0: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed); break;
+ 366              		.loc 1 76 70 view .LVU71
+  76:Src/move.c    ****         case 0: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed); break;
+ 367              		.loc 1 76 9 is_stmt 0 view .LVU72
+ 368 0012 7047     		bx	lr
+ 369              	.L26:
+  77:Src/move.c    ****         case 1: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed); break;
+ 370              		.loc 1 77 17 is_stmt 1 view .LVU73
+ 371 0014 034B     		ldr	r3, .L30
+ 372 0016 1B68     		ldr	r3, [r3]
+ 373 0018 9963     		str	r1, [r3, #56]
+  77:Src/move.c    ****         case 1: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed); break;
+ 374              		.loc 1 77 70 view .LVU74
+  77:Src/move.c    ****         case 1: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed); break;
+ 375              		.loc 1 77 9 is_stmt 0 view .LVU75
+ 376 001a 7047     		bx	lr
+ 377              	.L27:
+  78:Src/move.c    ****         case 2: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, speed); break;
+ 378              		.loc 1 78 17 is_stmt 1 view .LVU76
+ 379 001c 014B     		ldr	r3, .L30
+ 380 001e 1B68     		ldr	r3, [r3]
+ 381 0020 D963     		str	r1, [r3, #60]
+  78:Src/move.c    ****         case 2: __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, speed); break;
+ 382              		.loc 1 78 70 view .LVU77
+ 383              		.loc 1 81 1 is_stmt 0 view .LVU78
+ 384 0022 F2E7     		b	.L25
+ 385              	.L31:
+ 386              		.align	2
+ 387              	.L30:
+ 388 0024 00000000 		.word	htim3
+ 389              		.cfi_endproc
+ 390              	.LFE134:
+ 392              		.comm	huart2,68,4
+ 393              		.comm	htim8,72,4
+ 394              		.comm	htim3,72,4
+ 395              		.comm	htim1,72,4
+ 396              		.comm	hspi1,88,4
+ 397              		.comm	hi2s3,72,4
+ 398              		.comm	hi2c1,84,4
+ 399              		.text
+ 400              	.Letext0:
+ 401              		.file 2 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 402              		.file 3 "Drivers/CMSIS/Include/core_cm4.h"
+ 403              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ARM GAS  /tmp/ccr81NgS.s 			page 10
+
+
+ 404              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
+ 405              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 406              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 407              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h"
+ 408              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2s.h"
+ 409              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
+ 410              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 411              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 412              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 413              		.file 14 "Inc/main.h"
+ 414              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ARM GAS  /tmp/ccr81NgS.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 move.c
+     /tmp/ccr81NgS.s:18     .text.rot_direction:0000000000000000 $t
+     /tmp/ccr81NgS.s:26     .text.rot_direction:0000000000000000 rot_direction
+     /tmp/ccr81NgS.s:145    .text.rot_direction:0000000000000078 $d
+     /tmp/ccr81NgS.s:151    .text.rotate:0000000000000000 $t
+     /tmp/ccr81NgS.s:158    .text.rotate:0000000000000000 rotate
+     /tmp/ccr81NgS.s:198    .text.vehicle_direction:0000000000000000 $t
+     /tmp/ccr81NgS.s:205    .text.vehicle_direction:0000000000000000 vehicle_direction
+     /tmp/ccr81NgS.s:298    .text.stop_all_motors:0000000000000000 $t
+     /tmp/ccr81NgS.s:305    .text.stop_all_motors:0000000000000000 stop_all_motors
+     /tmp/ccr81NgS.s:337    .text.adjust_speed:0000000000000000 $t
+     /tmp/ccr81NgS.s:344    .text.adjust_speed:0000000000000000 adjust_speed
+     /tmp/ccr81NgS.s:388    .text.adjust_speed:0000000000000024 $d
+                            *COM*:0000000000000048 htim3
+                            *COM*:0000000000000044 huart2
+                            *COM*:0000000000000048 htim8
+                            *COM*:0000000000000048 htim1
+                            *COM*:0000000000000058 hspi1
+                            *COM*:0000000000000048 hi2s3
+                            *COM*:0000000000000054 hi2c1
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin

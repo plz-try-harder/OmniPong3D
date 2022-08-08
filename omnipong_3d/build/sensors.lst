@@ -1,0 +1,619 @@
+ARM GAS  /tmp/ccG1Vx4T.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"sensors.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.ultrasonic,"ax",%progbits
+  18              		.align	1
+  19              		.global	ultrasonic
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	ultrasonic:
+  27              	.LVL0:
+  28              	.LFB133:
+  29              		.file 1 "Src/sensors.c"
+   1:Src/sensors.c **** #include "sensors.h"
+   2:Src/sensors.c **** #include <string.h>
+   3:Src/sensors.c **** #include <stdio.h>
+   4:Src/sensors.c **** 
+   5:Src/sensors.c **** 
+   6:Src/sensors.c **** int status[3];
+   7:Src/sensors.c **** int us_rising_edge[3];
+   8:Src/sensors.c **** int us_falling_edge[3];
+   9:Src/sensors.c **** int us_distance[3];
+  10:Src/sensors.c **** uint8_t buf[128];
+  11:Src/sensors.c **** 
+  12:Src/sensors.c **** int pulse_counter[3] = {0,0,0};
+  13:Src/sensors.c **** 
+  14:Src/sensors.c **** 
+  15:Src/sensors.c **** int current_channel;
+  16:Src/sensors.c **** 
+  17:Src/sensors.c **** 
+  18:Src/sensors.c **** void ultrasonic(int sensor) {
+  30              		.loc 1 18 29 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  19:Src/sensors.c **** 
+  20:Src/sensors.c ****     switch(sensor) 
+  35              		.loc 1 20 5 view .LVU1
+  36 0000 0128     		cmp	r0, #1
+  37 0002 19D0     		beq	.L2
+  38 0004 0228     		cmp	r0, #2
+ARM GAS  /tmp/ccG1Vx4T.s 			page 2
+
+
+  39 0006 1BD0     		beq	.L3
+  40 0008 90B1     		cbz	r0, .L17
+  41              	.L4:
+  21:Src/sensors.c ****     {
+  22:Src/sensors.c ****         case 0: current_channel = TIM_CHANNEL_2; break;
+  23:Src/sensors.c ****         case 1: current_channel = TIM_CHANNEL_3; break;
+  24:Src/sensors.c ****         case 2: current_channel = TIM_CHANNEL_4; break;
+  25:Src/sensors.c ****     }
+  26:Src/sensors.c **** 
+  27:Src/sensors.c **** 
+  28:Src/sensors.c ****     if (status[sensor] == 0) 
+  42              		.loc 1 28 5 view .LVU2
+  43              		.loc 1 28 15 is_stmt 0 view .LVU3
+  44 000a 3A4B     		ldr	r3, .L23
+  45 000c 53F82030 		ldr	r3, [r3, r0, lsl #2]
+  46              		.loc 1 28 8 view .LVU4
+  47 0010 002B     		cmp	r3, #0
+  48 0012 29D1     		bne	.L5
+  29:Src/sensors.c ****     {
+  30:Src/sensors.c ****         us_rising_edge[sensor] = __HAL_TIM_GET_COMPARE(&htim1, current_channel);
+  49              		.loc 1 30 9 is_stmt 1 view .LVU5
+  50              		.loc 1 30 34 is_stmt 0 view .LVU6
+  51 0014 384B     		ldr	r3, .L23+4
+  52 0016 1B68     		ldr	r3, [r3]
+  53 0018 B3B9     		cbnz	r3, .L6
+  54              		.loc 1 30 34 discriminator 1 view .LVU7
+  55 001a 384B     		ldr	r3, .L23+8
+  56 001c 1B68     		ldr	r3, [r3]
+  57 001e 5A6B     		ldr	r2, [r3, #52]
+  58              	.L7:
+  59              		.loc 1 30 32 discriminator 12 view .LVU8
+  60 0020 374B     		ldr	r3, .L23+12
+  61 0022 43F82020 		str	r2, [r3, r0, lsl #2]
+  31:Src/sensors.c ****         status[sensor] = 1;
+  62              		.loc 1 31 9 is_stmt 1 discriminator 12 view .LVU9
+  63              		.loc 1 31 24 is_stmt 0 discriminator 12 view .LVU10
+  64 0026 334B     		ldr	r3, .L23
+  65 0028 0122     		movs	r2, #1
+  66 002a 43F82020 		str	r2, [r3, r0, lsl #2]
+  67 002e 7047     		bx	lr
+  68              	.L17:
+  22:Src/sensors.c ****         case 1: current_channel = TIM_CHANNEL_3; break;
+  69              		.loc 1 22 17 is_stmt 1 view .LVU11
+  22:Src/sensors.c ****         case 1: current_channel = TIM_CHANNEL_3; break;
+  70              		.loc 1 22 33 is_stmt 0 view .LVU12
+  71 0030 314B     		ldr	r3, .L23+4
+  72 0032 0422     		movs	r2, #4
+  73 0034 1A60     		str	r2, [r3]
+  22:Src/sensors.c ****         case 1: current_channel = TIM_CHANNEL_3; break;
+  74              		.loc 1 22 50 is_stmt 1 view .LVU13
+  22:Src/sensors.c ****         case 1: current_channel = TIM_CHANNEL_3; break;
+  75              		.loc 1 22 9 is_stmt 0 view .LVU14
+  76 0036 E8E7     		b	.L4
+  77              	.L2:
+  23:Src/sensors.c ****         case 2: current_channel = TIM_CHANNEL_4; break;
+  78              		.loc 1 23 17 is_stmt 1 view .LVU15
+  23:Src/sensors.c ****         case 2: current_channel = TIM_CHANNEL_4; break;
+ARM GAS  /tmp/ccG1Vx4T.s 			page 3
+
+
+  79              		.loc 1 23 33 is_stmt 0 view .LVU16
+  80 0038 2F4B     		ldr	r3, .L23+4
+  81 003a 0822     		movs	r2, #8
+  82 003c 1A60     		str	r2, [r3]
+  23:Src/sensors.c ****         case 2: current_channel = TIM_CHANNEL_4; break;
+  83              		.loc 1 23 50 is_stmt 1 view .LVU17
+  23:Src/sensors.c ****         case 2: current_channel = TIM_CHANNEL_4; break;
+  84              		.loc 1 23 9 is_stmt 0 view .LVU18
+  85 003e E4E7     		b	.L4
+  86              	.L3:
+  24:Src/sensors.c ****     }
+  87              		.loc 1 24 17 is_stmt 1 view .LVU19
+  24:Src/sensors.c ****     }
+  88              		.loc 1 24 33 is_stmt 0 view .LVU20
+  89 0040 2D4B     		ldr	r3, .L23+4
+  90 0042 0C22     		movs	r2, #12
+  91 0044 1A60     		str	r2, [r3]
+  24:Src/sensors.c ****     }
+  92              		.loc 1 24 50 is_stmt 1 view .LVU21
+  24:Src/sensors.c ****     }
+  93              		.loc 1 24 9 is_stmt 0 view .LVU22
+  94 0046 E0E7     		b	.L4
+  95              	.L6:
+  30:Src/sensors.c ****         status[sensor] = 1;
+  96              		.loc 1 30 34 discriminator 2 view .LVU23
+  97 0048 042B     		cmp	r3, #4
+  98 004a 05D0     		beq	.L18
+  30:Src/sensors.c ****         status[sensor] = 1;
+  99              		.loc 1 30 34 discriminator 5 view .LVU24
+ 100 004c 082B     		cmp	r3, #8
+ 101 004e 07D0     		beq	.L19
+  30:Src/sensors.c ****         status[sensor] = 1;
+ 102              		.loc 1 30 34 discriminator 8 view .LVU25
+ 103 0050 2A4B     		ldr	r3, .L23+8
+ 104 0052 1B68     		ldr	r3, [r3]
+ 105 0054 1A6C     		ldr	r2, [r3, #64]
+ 106 0056 E3E7     		b	.L7
+ 107              	.L18:
+  30:Src/sensors.c ****         status[sensor] = 1;
+ 108              		.loc 1 30 34 discriminator 4 view .LVU26
+ 109 0058 284B     		ldr	r3, .L23+8
+ 110 005a 1B68     		ldr	r3, [r3]
+ 111 005c 9A6B     		ldr	r2, [r3, #56]
+ 112 005e DFE7     		b	.L7
+ 113              	.L19:
+  30:Src/sensors.c ****         status[sensor] = 1;
+ 114              		.loc 1 30 34 discriminator 7 view .LVU27
+ 115 0060 264B     		ldr	r3, .L23+8
+ 116 0062 1B68     		ldr	r3, [r3]
+ 117 0064 DA6B     		ldr	r2, [r3, #60]
+ 118 0066 DBE7     		b	.L7
+ 119              	.L5:
+  32:Src/sensors.c ****     }
+  33:Src/sensors.c ****     else if(status[sensor] == 1)
+ 120              		.loc 1 33 10 is_stmt 1 view .LVU28
+ 121              		.loc 1 33 12 is_stmt 0 view .LVU29
+ 122 0068 012B     		cmp	r3, #1
+ARM GAS  /tmp/ccG1Vx4T.s 			page 4
+
+
+ 123 006a 00D0     		beq	.L20
+ 124              	.L1:
+  34:Src/sensors.c ****     {
+  35:Src/sensors.c ****         us_falling_edge[sensor] = __HAL_TIM_GET_COMPARE(&htim1, current_channel);
+  36:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+  37:Src/sensors.c ****         {
+  38:Src/sensors.c ****         us_distance[sensor] = (us_falling_edge[sensor] - us_rising_edge[sensor]) / 58;
+  39:Src/sensors.c ****         } else {
+  40:Src/sensors.c **** 
+  41:Src/sensors.c ****         us_distance[sensor] = (65535 - us_rising_edge[sensor] - us_falling_edge[sensor]) / 58;
+  42:Src/sensors.c ****       
+  43:Src/sensors.c ****         }
+  44:Src/sensors.c **** 
+  45:Src/sensors.c ****     us_rising_edge[sensor] = 0;
+  46:Src/sensors.c ****     us_falling_edge[sensor] = 0;
+  47:Src/sensors.c ****     status[sensor] = 0;
+  48:Src/sensors.c **** 
+  49:Src/sensors.c ****     }
+  50:Src/sensors.c **** }
+ 125              		.loc 1 50 1 view .LVU30
+ 126 006c 7047     		bx	lr
+ 127              	.L20:
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 128              		.loc 1 35 9 is_stmt 1 view .LVU31
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 129              		.loc 1 35 35 is_stmt 0 view .LVU32
+ 130 006e 224B     		ldr	r3, .L23+4
+ 131 0070 1B68     		ldr	r3, [r3]
+ 132 0072 03BB     		cbnz	r3, .L11
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 133              		.loc 1 35 35 discriminator 1 view .LVU33
+ 134 0074 214B     		ldr	r3, .L23+8
+ 135 0076 1B68     		ldr	r3, [r3]
+ 136 0078 5A6B     		ldr	r2, [r3, #52]
+ 137              	.L12:
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 138              		.loc 1 35 33 discriminator 12 view .LVU34
+ 139 007a 224B     		ldr	r3, .L23+16
+ 140 007c 43F82020 		str	r2, [r3, r0, lsl #2]
+  36:Src/sensors.c ****         {
+ 141              		.loc 1 36 9 is_stmt 1 discriminator 12 view .LVU35
+  36:Src/sensors.c ****         {
+ 142              		.loc 1 36 26 is_stmt 0 discriminator 12 view .LVU36
+ 143 0080 1F4B     		ldr	r3, .L23+12
+ 144 0082 53F82030 		ldr	r3, [r3, r0, lsl #2]
+  36:Src/sensors.c ****         {
+ 145              		.loc 1 36 11 discriminator 12 view .LVU37
+ 146 0086 9342     		cmp	r3, r2
+ 147 0088 25DA     		bge	.L15
+  38:Src/sensors.c ****         } else {
+ 148              		.loc 1 38 9 is_stmt 1 view .LVU38
+  38:Src/sensors.c ****         } else {
+ 149              		.loc 1 38 56 is_stmt 0 view .LVU39
+ 150 008a D31A     		subs	r3, r2, r3
+  38:Src/sensors.c ****         } else {
+ 151              		.loc 1 38 82 view .LVU40
+ 152 008c 1E4A     		ldr	r2, .L23+20
+ARM GAS  /tmp/ccG1Vx4T.s 			page 5
+
+
+ 153 008e 82FB0312 		smull	r1, r2, r2, r3
+ 154 0092 1A44     		add	r2, r2, r3
+ 155 0094 DB17     		asrs	r3, r3, #31
+ 156 0096 C3EB6213 		rsb	r3, r3, r2, asr #5
+  38:Src/sensors.c ****         } else {
+ 157              		.loc 1 38 29 view .LVU41
+ 158 009a 1C4A     		ldr	r2, .L23+24
+ 159 009c 42F82030 		str	r3, [r2, r0, lsl #2]
+ 160              	.L16:
+  45:Src/sensors.c ****     us_falling_edge[sensor] = 0;
+ 161              		.loc 1 45 5 is_stmt 1 view .LVU42
+  45:Src/sensors.c ****     us_falling_edge[sensor] = 0;
+ 162              		.loc 1 45 28 is_stmt 0 view .LVU43
+ 163 00a0 0023     		movs	r3, #0
+ 164 00a2 174A     		ldr	r2, .L23+12
+ 165 00a4 42F82030 		str	r3, [r2, r0, lsl #2]
+  46:Src/sensors.c ****     status[sensor] = 0;
+ 166              		.loc 1 46 5 is_stmt 1 view .LVU44
+  46:Src/sensors.c ****     status[sensor] = 0;
+ 167              		.loc 1 46 29 is_stmt 0 view .LVU45
+ 168 00a8 164A     		ldr	r2, .L23+16
+ 169 00aa 42F82030 		str	r3, [r2, r0, lsl #2]
+  47:Src/sensors.c **** 
+ 170              		.loc 1 47 5 is_stmt 1 view .LVU46
+  47:Src/sensors.c **** 
+ 171              		.loc 1 47 20 is_stmt 0 view .LVU47
+ 172 00ae 114A     		ldr	r2, .L23
+ 173 00b0 42F82030 		str	r3, [r2, r0, lsl #2]
+ 174              		.loc 1 50 1 view .LVU48
+ 175 00b4 DAE7     		b	.L1
+ 176              	.L11:
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 177              		.loc 1 35 35 discriminator 2 view .LVU49
+ 178 00b6 042B     		cmp	r3, #4
+ 179 00b8 05D0     		beq	.L21
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 180              		.loc 1 35 35 discriminator 5 view .LVU50
+ 181 00ba 082B     		cmp	r3, #8
+ 182 00bc 07D0     		beq	.L22
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 183              		.loc 1 35 35 discriminator 8 view .LVU51
+ 184 00be 0F4B     		ldr	r3, .L23+8
+ 185 00c0 1B68     		ldr	r3, [r3]
+ 186 00c2 1A6C     		ldr	r2, [r3, #64]
+ 187 00c4 D9E7     		b	.L12
+ 188              	.L21:
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 189              		.loc 1 35 35 discriminator 4 view .LVU52
+ 190 00c6 0D4B     		ldr	r3, .L23+8
+ 191 00c8 1B68     		ldr	r3, [r3]
+ 192 00ca 9A6B     		ldr	r2, [r3, #56]
+ 193 00cc D5E7     		b	.L12
+ 194              	.L22:
+  35:Src/sensors.c ****         if(us_rising_edge[sensor] < us_falling_edge[sensor])
+ 195              		.loc 1 35 35 discriminator 7 view .LVU53
+ 196 00ce 0B4B     		ldr	r3, .L23+8
+ 197 00d0 1B68     		ldr	r3, [r3]
+ARM GAS  /tmp/ccG1Vx4T.s 			page 6
+
+
+ 198 00d2 DA6B     		ldr	r2, [r3, #60]
+ 199 00d4 D1E7     		b	.L12
+ 200              	.L15:
+  41:Src/sensors.c ****       
+ 201              		.loc 1 41 9 is_stmt 1 view .LVU54
+  41:Src/sensors.c ****       
+ 202              		.loc 1 41 38 is_stmt 0 view .LVU55
+ 203 00d6 C3F57F43 		rsb	r3, r3, #65280
+ 204 00da FF33     		adds	r3, r3, #255
+  41:Src/sensors.c ****       
+ 205              		.loc 1 41 63 view .LVU56
+ 206 00dc 9B1A     		subs	r3, r3, r2
+  41:Src/sensors.c ****       
+ 207              		.loc 1 41 90 view .LVU57
+ 208 00de 0A4A     		ldr	r2, .L23+20
+ 209 00e0 82FB0312 		smull	r1, r2, r2, r3
+ 210 00e4 1A44     		add	r2, r2, r3
+ 211 00e6 DB17     		asrs	r3, r3, #31
+ 212 00e8 C3EB6213 		rsb	r3, r3, r2, asr #5
+  41:Src/sensors.c ****       
+ 213              		.loc 1 41 29 view .LVU58
+ 214 00ec 074A     		ldr	r2, .L23+24
+ 215 00ee 42F82030 		str	r3, [r2, r0, lsl #2]
+ 216 00f2 D5E7     		b	.L16
+ 217              	.L24:
+ 218              		.align	2
+ 219              	.L23:
+ 220 00f4 00000000 		.word	status
+ 221 00f8 00000000 		.word	current_channel
+ 222 00fc 00000000 		.word	htim1
+ 223 0100 00000000 		.word	us_rising_edge
+ 224 0104 00000000 		.word	us_falling_edge
+ 225 0108 09CB3D8D 		.word	-1925330167
+ 226 010c 00000000 		.word	us_distance
+ 227              		.cfi_endproc
+ 228              	.LFE133:
+ 230              		.section	.text.light_sensor,"ax",%progbits
+ 231              		.align	1
+ 232              		.global	light_sensor
+ 233              		.syntax unified
+ 234              		.thumb
+ 235              		.thumb_func
+ 236              		.fpu fpv4-sp-d16
+ 238              	light_sensor:
+ 239              	.LVL1:
+ 240              	.LFB134:
+  51:Src/sensors.c **** 
+  52:Src/sensors.c **** 
+  53:Src/sensors.c **** void light_sensor(int motor) 
+  54:Src/sensors.c **** {
+ 241              		.loc 1 54 1 is_stmt 1 view -0
+ 242              		.cfi_startproc
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245              		@ link register save eliminated.
+  55:Src/sensors.c ****     pulse_counter[motor]++;
+ 246              		.loc 1 55 5 view .LVU60
+ARM GAS  /tmp/ccG1Vx4T.s 			page 7
+
+
+ 247              		.loc 1 55 18 is_stmt 0 view .LVU61
+ 248 0000 034A     		ldr	r2, .L26
+ 249 0002 52F82030 		ldr	r3, [r2, r0, lsl #2]
+ 250              		.loc 1 55 25 view .LVU62
+ 251 0006 0133     		adds	r3, r3, #1
+ 252 0008 42F82030 		str	r3, [r2, r0, lsl #2]
+  56:Src/sensors.c **** }
+ 253              		.loc 1 56 1 view .LVU63
+ 254 000c 7047     		bx	lr
+ 255              	.L27:
+ 256 000e 00BF     		.align	2
+ 257              	.L26:
+ 258 0010 00000000 		.word	.LANCHOR0
+ 259              		.cfi_endproc
+ 260              	.LFE134:
+ 262              		.section	.rodata.debug_counter.str1.4,"aMS",%progbits,1
+ 263              		.align	2
+ 264              	.LC0:
+ 265 0000 25642025 		.ascii	"%d %d %d\012\015\000"
+ 265      64202564 
+ 265      0A0D00
+ 266              		.section	.text.debug_counter,"ax",%progbits
+ 267              		.align	1
+ 268              		.global	debug_counter
+ 269              		.syntax unified
+ 270              		.thumb
+ 271              		.thumb_func
+ 272              		.fpu fpv4-sp-d16
+ 274              	debug_counter:
+ 275              	.LFB135:
+  57:Src/sensors.c **** 
+  58:Src/sensors.c **** 
+  59:Src/sensors.c **** void debug_counter() {
+ 276              		.loc 1 59 22 is_stmt 1 view -0
+ 277              		.cfi_startproc
+ 278              		@ args = 0, pretend = 0, frame = 0
+ 279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 280 0000 10B5     		push	{r4, lr}
+ 281              	.LCFI0:
+ 282              		.cfi_def_cfa_offset 8
+ 283              		.cfi_offset 4, -8
+ 284              		.cfi_offset 14, -4
+ 285 0002 82B0     		sub	sp, sp, #8
+ 286              	.LCFI1:
+ 287              		.cfi_def_cfa_offset 16
+  60:Src/sensors.c ****   sprintf((char*)buf, "%d %d %d\n\r", pulse_counter[0], pulse_counter[1], pulse_counter[2]);
+ 288              		.loc 1 60 3 view .LVU65
+ 289 0004 0A4A     		ldr	r2, .L30
+ 290 0006 0B4C     		ldr	r4, .L30+4
+ 291 0008 9368     		ldr	r3, [r2, #8]
+ 292 000a 0093     		str	r3, [sp]
+ 293 000c 5368     		ldr	r3, [r2, #4]
+ 294 000e 1268     		ldr	r2, [r2]
+ 295 0010 0949     		ldr	r1, .L30+8
+ 296 0012 2046     		mov	r0, r4
+ 297 0014 FFF7FEFF 		bl	sprintf
+ 298              	.LVL2:
+ARM GAS  /tmp/ccG1Vx4T.s 			page 8
+
+
+  61:Src/sensors.c ****   HAL_UART_Transmit(&huart2, buf, strlen((char*)buf), 500);
+ 299              		.loc 1 61 3 view .LVU66
+ 300              		.loc 1 61 35 is_stmt 0 view .LVU67
+ 301 0018 2046     		mov	r0, r4
+ 302 001a FFF7FEFF 		bl	strlen
+ 303              	.LVL3:
+ 304              		.loc 1 61 3 view .LVU68
+ 305 001e 4FF4FA73 		mov	r3, #500
+ 306 0022 82B2     		uxth	r2, r0
+ 307 0024 2146     		mov	r1, r4
+ 308 0026 0548     		ldr	r0, .L30+12
+ 309 0028 FFF7FEFF 		bl	HAL_UART_Transmit
+ 310              	.LVL4:
+  62:Src/sensors.c **** }
+ 311              		.loc 1 62 1 view .LVU69
+ 312 002c 02B0     		add	sp, sp, #8
+ 313              	.LCFI2:
+ 314              		.cfi_def_cfa_offset 8
+ 315              		@ sp needed
+ 316 002e 10BD     		pop	{r4, pc}
+ 317              	.L31:
+ 318              		.align	2
+ 319              	.L30:
+ 320 0030 00000000 		.word	.LANCHOR0
+ 321 0034 00000000 		.word	buf
+ 322 0038 00000000 		.word	.LC0
+ 323 003c 00000000 		.word	huart2
+ 324              		.cfi_endproc
+ 325              	.LFE135:
+ 327              		.section	.rodata.debug_distance.str1.4,"aMS",%progbits,1
+ 328              		.align	2
+ 329              	.LC1:
+ 330 0000 53656E73 		.ascii	"Sensor 1: %d cm\012\015Sensory 2: %d cm\012\015Sens"
+ 330      6F722031 
+ 330      3A202564 
+ 330      20636D0A 
+ 330      0D53656E 
+ 331 0027 6F722033 		.ascii	"or 3: %d cm\012\012\012\015\000"
+ 331      3A202564 
+ 331      20636D0A 
+ 331      0A0A0D00 
+ 332              		.section	.text.debug_distance,"ax",%progbits
+ 333              		.align	1
+ 334              		.global	debug_distance
+ 335              		.syntax unified
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.fpu fpv4-sp-d16
+ 340              	debug_distance:
+ 341              	.LFB136:
+  63:Src/sensors.c **** 
+  64:Src/sensors.c **** 
+  65:Src/sensors.c **** void debug_distance() {
+ 342              		.loc 1 65 23 is_stmt 1 view -0
+ 343              		.cfi_startproc
+ 344              		@ args = 0, pretend = 0, frame = 0
+ 345              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccG1Vx4T.s 			page 9
+
+
+ 346 0000 10B5     		push	{r4, lr}
+ 347              	.LCFI3:
+ 348              		.cfi_def_cfa_offset 8
+ 349              		.cfi_offset 4, -8
+ 350              		.cfi_offset 14, -4
+ 351 0002 82B0     		sub	sp, sp, #8
+ 352              	.LCFI4:
+ 353              		.cfi_def_cfa_offset 16
+  66:Src/sensors.c **** 
+  67:Src/sensors.c ****   sprintf((char*)buf, "Sensor 1: %d cm\n\rSensory 2: %d cm\n\rSensor 3: %d cm\n\n\n\r", us_distance
+ 354              		.loc 1 67 3 view .LVU71
+ 355 0004 0A4A     		ldr	r2, .L34
+ 356 0006 0B4C     		ldr	r4, .L34+4
+ 357 0008 9368     		ldr	r3, [r2, #8]
+ 358 000a 0093     		str	r3, [sp]
+ 359 000c 5368     		ldr	r3, [r2, #4]
+ 360 000e 1268     		ldr	r2, [r2]
+ 361 0010 0949     		ldr	r1, .L34+8
+ 362 0012 2046     		mov	r0, r4
+ 363 0014 FFF7FEFF 		bl	sprintf
+ 364              	.LVL5:
+  68:Src/sensors.c ****   HAL_UART_Transmit(&huart2, buf, strlen((char*)buf), 500);
+ 365              		.loc 1 68 3 view .LVU72
+ 366              		.loc 1 68 35 is_stmt 0 view .LVU73
+ 367 0018 2046     		mov	r0, r4
+ 368 001a FFF7FEFF 		bl	strlen
+ 369              	.LVL6:
+ 370              		.loc 1 68 3 view .LVU74
+ 371 001e 4FF4FA73 		mov	r3, #500
+ 372 0022 82B2     		uxth	r2, r0
+ 373 0024 2146     		mov	r1, r4
+ 374 0026 0548     		ldr	r0, .L34+12
+ 375 0028 FFF7FEFF 		bl	HAL_UART_Transmit
+ 376              	.LVL7:
+  69:Src/sensors.c **** 
+  70:Src/sensors.c **** }...
+ 377              		.loc 1 70 1 view .LVU75
+ 378 002c 02B0     		add	sp, sp, #8
+ 379              	.LCFI5:
+ 380              		.cfi_def_cfa_offset 8
+ 381              		@ sp needed
+ 382 002e 10BD     		pop	{r4, pc}
+ 383              	.L35:
+ 384              		.align	2
+ 385              	.L34:
+ 386 0030 00000000 		.word	us_distance
+ 387 0034 00000000 		.word	buf
+ 388 0038 00000000 		.word	.LC1
+ 389 003c 00000000 		.word	huart2
+ 390              		.cfi_endproc
+ 391              	.LFE136:
+ 393              		.comm	current_channel,4,4
+ 394              		.global	pulse_counter
+ 395              		.comm	buf,128,4
+ 396              		.comm	us_distance,12,4
+ 397              		.comm	us_falling_edge,12,4
+ 398              		.comm	us_rising_edge,12,4
+ARM GAS  /tmp/ccG1Vx4T.s 			page 10
+
+
+ 399              		.comm	status,12,4
+ 400              		.comm	huart2,68,4
+ 401              		.comm	htim8,72,4
+ 402              		.comm	htim3,72,4
+ 403              		.comm	htim1,72,4
+ 404              		.comm	hspi1,88,4
+ 405              		.comm	hi2s3,72,4
+ 406              		.comm	hi2c1,84,4
+ 407              		.section	.bss.pulse_counter,"aw",%nobits
+ 408              		.align	2
+ 409              		.set	.LANCHOR0,. + 0
+ 412              	pulse_counter:
+ 413 0000 00000000 		.space	12
+ 413      00000000 
+ 413      00000000 
+ 414              		.text
+ 415              	.Letext0:
+ 416              		.file 2 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 417              		.file 3 "Drivers/CMSIS/Include/core_cm4.h"
+ 418              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 419              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
+ 420              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 421              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 422              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h"
+ 423              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2s.h"
+ 424              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
+ 425              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 426              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 427              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 428              		.file 14 "Inc/main.h"
+ 429              		.file 15 "Inc/sensors.h"
+ 430              		.file 16 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 431              		.file 17 "/usr/include/newlib/sys/_types.h"
+ 432              		.file 18 "/usr/include/newlib/sys/reent.h"
+ 433              		.file 19 "/usr/include/newlib/sys/lock.h"
+ 434              		.file 20 "/usr/include/newlib/stdio.h"
+ 435              		.file 21 "/usr/include/newlib/string.h"
+ARM GAS  /tmp/ccG1Vx4T.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sensors.c
+     /tmp/ccG1Vx4T.s:18     .text.ultrasonic:0000000000000000 $t
+     /tmp/ccG1Vx4T.s:26     .text.ultrasonic:0000000000000000 ultrasonic
+     /tmp/ccG1Vx4T.s:220    .text.ultrasonic:00000000000000f4 $d
+                            *COM*:000000000000000c status
+                            *COM*:0000000000000004 current_channel
+                            *COM*:0000000000000048 htim1
+                            *COM*:000000000000000c us_rising_edge
+                            *COM*:000000000000000c us_falling_edge
+                            *COM*:000000000000000c us_distance
+     /tmp/ccG1Vx4T.s:231    .text.light_sensor:0000000000000000 $t
+     /tmp/ccG1Vx4T.s:238    .text.light_sensor:0000000000000000 light_sensor
+     /tmp/ccG1Vx4T.s:258    .text.light_sensor:0000000000000010 $d
+     /tmp/ccG1Vx4T.s:263    .rodata.debug_counter.str1.4:0000000000000000 $d
+     /tmp/ccG1Vx4T.s:267    .text.debug_counter:0000000000000000 $t
+     /tmp/ccG1Vx4T.s:274    .text.debug_counter:0000000000000000 debug_counter
+     /tmp/ccG1Vx4T.s:320    .text.debug_counter:0000000000000030 $d
+                            *COM*:0000000000000080 buf
+                            *COM*:0000000000000044 huart2
+     /tmp/ccG1Vx4T.s:328    .rodata.debug_distance.str1.4:0000000000000000 $d
+     /tmp/ccG1Vx4T.s:333    .text.debug_distance:0000000000000000 $t
+     /tmp/ccG1Vx4T.s:340    .text.debug_distance:0000000000000000 debug_distance
+     /tmp/ccG1Vx4T.s:386    .text.debug_distance:0000000000000030 $d
+     /tmp/ccG1Vx4T.s:412    .bss.pulse_counter:0000000000000000 pulse_counter
+                            *COM*:0000000000000048 htim8
+                            *COM*:0000000000000048 htim3
+                            *COM*:0000000000000058 hspi1
+                            *COM*:0000000000000048 hi2s3
+                            *COM*:0000000000000054 hi2c1
+     /tmp/ccG1Vx4T.s:408    .bss.pulse_counter:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+sprintf
+strlen
+HAL_UART_Transmit
